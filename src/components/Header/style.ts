@@ -25,7 +25,7 @@ export const Location = styled.div`
     padding: 0.5rem;
     border-radius: 6px;
 
-    font-family: Roboto, sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 130%;
