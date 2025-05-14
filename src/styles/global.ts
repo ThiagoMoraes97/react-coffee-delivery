@@ -11,5 +11,6 @@ export const GlobalStyle = createGlobalStyle`
     body{
         -webkit-font-smoothing: antialiased;
         background-color: ${({theme}) => theme.colors.base.background};
+        height: 100vh;
     }
 `;
