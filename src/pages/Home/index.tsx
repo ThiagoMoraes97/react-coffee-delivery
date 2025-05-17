@@ -50,7 +50,7 @@ export function Home() {
 
         <CoffeeList>
           {coffees.map(coffee => (
-            <CoffeeCard coffee={coffee} />
+            <CoffeeCard key={coffee.id} coffee={coffee} />
           ))}
         </CoffeeList>
         

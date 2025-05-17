@@ -1,6 +1,8 @@
 import { CoffeeCardContainer, CoffeeTags, CoffeeTagsGroup, CoffeeCartInfo, CoffeeQuantity } from "./style";
 import { ShoppingCart, Plus, Minus } from "@phosphor-icons/react";
 import { Coffee } from "../../data/coffees";
+import { useState } from "react";
+import { useCart } from "../../hooks/useCart";
 
 interface CoffeeCardProps {
     coffee: Coffee
@@ -8,12 +10,28 @@ interface CoffeeCardProps {
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
 
+    const [quantity, setQuantity] = useState(0);
     const { image, tags, title, description, price } = coffee;
+
+    const { addToCart } = useCart();
 
     const formatted = price.toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     })
+
+    function handleQuantity(type: 'plus' | 'minus') {
+        if (type === 'plus') {
+            setQuantity((prev) => prev + 1);
+        } else {
+            setQuantity((prev) => prev > 0 ? prev - 1 : 0);
+        }
+    }
+
+    function handleAddToCart() {
+        addToCart(coffee, quantity);
+        setQuantity(0);
+    }
 
   return (
     <CoffeeCardContainer>
@@ -36,14 +54,14 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
             
             <CoffeeQuantity>
                 <button className="btnMinus">
-                    <Minus size={14} weight="bold" />
+                    <Minus size={14} weight="bold" onClick={() => {handleQuantity('minus')}}/>
                 </button>
-                <span>1</span>
+                <span>{quantity}</span>
                 <button className="btnPlus">
-                    <Plus size={14} weight="bold" />
+                    <Plus size={14} weight="bold" onClick={() => {handleQuantity('plus')}}/>
                 </button>
             </CoffeeQuantity>
-            <button className="btnAddToCart">
+            <button className="btnAddToCart" onClick={handleAddToCart}>
                 <ShoppingCart size={22} weight="fill" />
             </button>
         </CoffeeCartInfo>

@@ -45,4 +45,24 @@ export const Cart = styled.button`
     justify-content: center;
     border: none;
     cursor: pointer;
+
+    position: relative;
+
+    span {
+        position: absolute;
+        top: -0.5rem;
+        right: -0.5rem;
+        background-color: ${({theme}) => theme.colors.product.yellowDark};
+        color: ${({theme}) => theme.colors.base.white};
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-family: "Roboto", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
 `;

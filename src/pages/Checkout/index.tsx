@@ -1,8 +1,34 @@
 import { CheckoutContainer, CheckoutAdressInfo, CheckoutInfo, CheckoutItens, CheckoutPaymentInfo, CheckoutAdressInput, CheckoutItensInfo, CheckoutPaymentMethodsItens, CheckoutPaymentMethods } from "./style";
 import { CheckoutItem } from "../../components/CheckoutItem";
 import { CurrencyDollar, MapPin, CreditCard, Money, Bank } from "@phosphor-icons/react";
+import { useCart } from "../../hooks/useCart";
 
 export function Checkout() {
+
+  const { cartItems } = useCart();
+
+  const totalCartPrice = cartItems.reduce((acc, item) => {
+    return acc + item.coffee.price * item.quantity
+  }, 0)
+
+  const deliveryPrice = 3.50;
+  const totalPrice = totalCartPrice + deliveryPrice;
+
+  const formatedTotalPrice = totalPrice.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
+  const formatedTotalCartPrice = totalCartPrice.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
+  const formatedDeliveryPrice = deliveryPrice.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
   return (
     <CheckoutContainer>
       <CheckoutInfo>
@@ -70,14 +96,15 @@ export function Checkout() {
 
         <CheckoutItensInfo>
           <div className="checkout-items-list">
-            <CheckoutItem />
-            <CheckoutItem />
+            {cartItems.map(item => (
+              <CheckoutItem key={item.coffee.id} coffee={item.coffee} quantity={item.quantity}/>
+            ))}
           </div>
 
           <div className="checkout-total">
-            <p>Total de itens <span>29,70</span></p>
-            <p>Total de entrega <span>3,50</span></p>
-            <p>Total <span>33,20</span></p>
+            <p>Total de itens <span>{formatedTotalCartPrice}</span></p>
+            <p>Total de entrega <span>{formatedDeliveryPrice}</span></p>
+            <p>Total <span>{formatedTotalPrice}</span></p>
           </div>
 
           <button type="submit">Confirmar pedido</button>
